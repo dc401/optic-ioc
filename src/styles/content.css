@@ -1,0 +1,91 @@
+/* Optic IOC - Content Script Styles */
+/* Injected into pages for IOC highlighting */
+
+/* Default yellow highlight (before enrichment) */
+.optic-highlight {
+  background-color: rgba(255, 255, 0, 0.3);
+  border-bottom: 2px solid rgba(255, 200, 0, 0.6);
+  padding: 1px 2px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.optic-highlight:hover {
+  background-color: rgba(255, 255, 0, 0.5);
+  border-bottom-color: rgba(255, 200, 0, 0.8);
+}
+
+/* Severity-based highlighting */
+.optic-highlight.severity-critical {
+  background-color: rgba(255, 0, 0, 0.3);
+  border-bottom: 2px solid rgba(255, 0, 0, 0.8);
+}
+
+.optic-highlight.severity-critical:hover {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.optic-highlight.severity-high {
+  background-color: rgba(255, 136, 0, 0.25);
+  border-bottom: 2px solid rgba(255, 136, 0, 0.7);
+}
+
+.optic-highlight.severity-high:hover {
+  background-color: rgba(255, 136, 0, 0.4);
+}
+
+.optic-highlight.severity-medium {
+  background-color: rgba(255, 255, 0, 0.25);
+  border-bottom: 2px solid rgba(255, 200, 0, 0.7);
+}
+
+.optic-highlight.severity-medium:hover {
+  background-color: rgba(255, 255, 0, 0.4);
+}
+
+.optic-highlight.severity-low {
+  background-color: rgba(0, 136, 255, 0.15);
+  border-bottom: 2px solid rgba(0, 136, 255, 0.5);
+}
+
+.optic-highlight.severity-low:hover {
+  background-color: rgba(0, 136, 255, 0.3);
+}
+
+.optic-highlight.severity-clean {
+  background-color: rgba(0, 200, 0, 0.15);
+  border-bottom: 2px solid rgba(0, 200, 0, 0.5);
+}
+
+.optic-highlight.severity-clean:hover {
+  background-color: rgba(0, 200, 0, 0.3);
+}
+
+.optic-highlight.severity-unknown {
+  background-color: rgba(128, 128, 128, 0.15);
+  border-bottom: 2px dashed rgba(128, 128, 128, 0.5);
+}
+
+/* Loading indicator */
+.optic-highlight.loading {
+  position: relative;
+  animation: optic-pulse 1.5s infinite;
+}
+
+.optic-highlight.loading::after {
+  content: " ⋯";
+  font-weight: bold;
+  animation: optic-dots 1.5s infinite;
+}
+
+@keyframes optic-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@keyframes optic-dots {
+  0%, 20% { content: " ."; }
+  40% { content: " .."; }
+  60%, 100% { content: " ..."; }
+}

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Optic IOC</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <h1>👓 Optic IOC</h1>
+      <p class="subtitle">Threat Intelligence Enrichment</p>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs">
+      <button class="tab active" data-tab="status">Status</button>
+      <button class="tab" data-tab="settings">Settings</button>
+      <button class="tab" data-tab="sources">Sources</button>
+      <button class="tab" data-tab="pivots">Pivots</button>
+      <button class="tab" data-tab="help">Help</button>
+      <button class="tab" data-tab="about">About</button>
+    </nav>
+
+    <!-- Status Tab -->
+    <div id="tab-status" class="tab-content active">
+      <section>
+        <h2>Current Domain Status</h2>
+
+        <div style="background: var(--bg-tertiary); padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Domain:</span>
+            <span id="current-domain" style="font-family: monospace; font-size: 13px; font-weight: 600; color: var(--text-primary);">Loading...</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Status:</span>
+            <span id="domain-status" style="font-weight: 600; font-size: 13px; color: var(--text-muted);">Checking...</span>
+          </div>
+        </div>
+
+        <label class="toggle" style="display: flex; align-items: center; padding: 12px; background: var(--bg-tertiary); border-radius: 6px; cursor: pointer; margin-bottom: 16px;">
+          <input type="checkbox" id="domain-enabled">
+          <div style="flex: 1; margin-left: 12px;">
+            <div style="font-weight: 600; font-size: 14px;">Enable on this domain</div>
+            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">When enabled, IOCs will be automatically detected and enriched</div>
+          </div>
+        </label>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="stat-entities">-</div>
+            <div class="stat-label">IOCs Found</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-enriched">-</div>
+            <div class="stat-label">Enriched</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-cached">-</div>
+            <div class="stat-label">From Cache</div>
+          </div>
+        </div>
+
+        <button id="refresh-page" class="btn-primary full-width" style="margin-top: 12px;">Scan Page Now</button>
+        <p class="help-text" style="text-align: center; margin-top: 8px;">Manually trigger IOC detection and enrichment</p>
+      </section>
+
+      <section>
+        <h2>Cache & Performance</h2>
+        <div class="info-grid">
+          <div class="info-row">
+            <span>Cache Size:</span>
+            <span id="cache-size">-</span>
+          </div>
+          <div class="info-row">
+            <span>Cache Entries:</span>
+            <span id="cache-entries">-</span>
+          </div>
+          <div class="info-row">
+            <span>Storage Used:</span>
+            <span id="storage-used">-</span>
+          </div>
+        </div>
+        <button id="clear-cache" class="btn-secondary full-width">Clear Cache</button>
+      </section>
+    </div>
+
+    <!-- Settings Tab -->
+    <div id="tab-settings" class="tab-content">
+      <section>
+        <h2>General Settings</h2>
+
+        <div class="form-group">
+          <label for="target-org">Target Organization</label>
+          <input type="text" id="target-org" placeholder="UKG or ukg.com">
+          <span class="help-text">Used for relevance analysis</span>
+        </div>
+
+        <h3 style="margin-top: 20px;">API Keys</h3>
+
+        <div class="form-group">
+          <label for="gemini-api-key">Gemini API Key</label>
+          <div class="input-with-toggle">
+            <input type="password" id="gemini-api-key" placeholder="AIza...">
+            <button type="button" class="btn-toggle-mask" data-target="gemini-api-key">👁</button>
+          </div>
+          <span class="help-text">Get from <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a></span>
+        </div>
+
+        <div class="form-group">
+          <label for="gti-api-key">GTI API Key</label>
+          <div class="input-with-toggle">
+            <input type="password" id="gti-api-key" placeholder="VT API key...">
+            <button type="button" class="btn-toggle-mask" data-target="gti-api-key">👁</button>
+          </div>
+          <span class="help-text">VirusTotal/Google Threat Intelligence API key</span>
+        </div>
+
+        <div class="form-group">
+          <label for="cache-ttl">Cache TTL (days)</label>
+          <input type="number" id="cache-ttl" min="1" max="365" value="30">
+        </div>
+
+        <div class="form-group">
+          <label for="cache-size">Max Cache Size (MB)</label>
+          <input type="number" id="cache-size" min="10" max="500" value="50">
+        </div>
+
+        <button id="save-settings" class="btn-primary full-width">Save Settings</button>
+      </section>
+
+      <section>
+        <h2>Domain Whitelist</h2>
+        <p class="help-text">Manage domains where Optic IOC is enabled</p>
+
+        <div class="info-grid" style="margin-bottom: 12px;">
+          <div class="info-row">
+            <span>Total Enabled Domains:</span>
+            <span id="domain-count" style="font-weight: 600; color: var(--accent);">0</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+          <button id="export-domains" class="btn-secondary" style="flex: 1; font-size: 11px;">📥 Export</button>
+          <button id="import-domains" class="btn-secondary" style="flex: 1; font-size: 11px;">📤 Import</button>
+          <button id="clear-domains" class="btn-danger" style="flex: 1; font-size: 11px;">🗑️ Clear All</button>
+        </div>
+
+        <div id="domains-list-container" style="max-height: 200px; overflow-y: auto; background: var(--bg-tertiary); border-radius: 4px; padding: 8px;">
+          <div id="domains-list" class="log-empty">No domains enabled yet</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Sources Tab -->
+    <div id="tab-sources" class="tab-content">
+      <section>
+        <h2>API Connection Status</h2>
+        <p class="help-text">Test your API key connections (keys configured in Settings tab)</p>
+
+        <div class="form-group">
+          <label>Gemini API</label>
+          <button id="test-gemini" class="btn-secondary full-width">Test Gemini Connection</button>
+          <span id="gemini-status" class="help-text"></span>
+        </div>
+
+        <div class="form-group">
+          <label>Google Threat Intelligence (GTI)</label>
+          <button id="test-gti" class="btn-secondary full-width">Test GTI Connection</button>
+          <span id="gti-status" class="help-text"></span>
+        </div>
+      </section>
+    </div>
+
+    <!-- Pivots Tab -->
+    <div id="tab-pivots" class="tab-content">
+      <section>
+        <h2>Pivot Links</h2>
+        <p class="help-text">Configure right-click pivot links for IOC investigation</p>
+
+        <button id="add-pivot-btn" class="btn-primary full-width" style="margin-bottom: 12px;">➕ Add Custom Pivot</button>
+
+        <div id="pivot-form" style="display: none; background: var(--bg-tertiary); padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+          <h3 style="font-size: 13px; margin-bottom: 12px;">Pivot Configuration</h3>
+
+          <div class="form-group">
+            <label for="pivot-name">Name</label>
+            <input type="text" id="pivot-name" placeholder="My Custom Pivot">
+          </div>
+
+          <div class="form-group">
+            <label for="pivot-url">URL Template</label>
+            <input type="text" id="pivot-url" placeholder="https://example.com/search?q={{value}}">
+            <span class="help-text">Use {{value}} for IOC value, {{type}} for IOC type</span>
+          </div>
+
+          <div class="form-group">
+            <label for="pivot-types">IOC Types (comma-separated)</label>
+            <input type="text" id="pivot-types" placeholder="ip,domain,url,hash">
+            <span class="help-text">Supported: ip, domain, url, hash, md5, sha1, sha256, email, cve</span>
+          </div>
+
+          <div class="form-group">
+            <label for="pivot-api-key">API Key (optional)</label>
+            <div class="input-with-toggle">
+              <input type="password" id="pivot-api-key" placeholder="API key if required by service">
+              <button type="button" class="btn-toggle-mask" data-target="pivot-api-key">👁</button>
+            </div>
+            <span class="help-text">For services requiring authentication (Shodan, URLScan.io, etc.)</span>
+          </div>
+
+          <div class="form-group">
+            <label for="pivot-api-header">API Key Header Name (optional)</label>
+            <input type="text" id="pivot-api-header" placeholder="X-API-KEY or Authorization">
+            <span class="help-text">HTTP header name for API key (leave empty if in URL)</span>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="pivot-enabled" checked>
+              Enabled
+            </label>
+          </div>
+
+          <div style="display: flex; gap: 8px;">
+            <button id="save-pivot" class="btn-primary" style="flex: 1;">💾 Save</button>
+            <button id="cancel-pivot" class="btn-secondary" style="flex: 1;">✖️ Cancel</button>
+          </div>
+        </div>
+
+        <div id="pivots-list"></div>
+      </section>
+    </div>
+
+    <!-- Help Tab -->
+    <div id="tab-help" class="tab-content">
+      <section>
+        <h2>How It Works</h2>
+        <p class="help-text">Optic IOC automatically detects and enriches threat indicators on webpages.</p>
+
+        <h3 style="margin-top: 16px;">Detection</h3>
+        <ul class="help-list">
+          <li><strong>Hard Indicators:</strong> IPs, domains, URLs, hashes (MD5/SHA1/SHA256), CVEs, emails</li>
+          <li><strong>Yellow Highlights:</strong> Indicators detected, enrichment in progress (loading dots)</li>
+          <li><strong>Color-Coded:</strong> After enrichment, colors show severity:
+            <ul>
+              <li>🔴 Red = Critical (80-100)</li>
+              <li>🟠 Orange = High (60-79)</li>
+              <li>🟡 Yellow = Medium (40-59)</li>
+              <li>🔵 Blue = Low (20-39)</li>
+              <li>🟢 Green = Clean (0-19)</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h3 style="margin-top: 16px;">Threat Analysis</h3>
+        <ul class="help-list">
+          <li><strong>Aggregate Summary:</strong> When IOCs are detected, Gemini analyzes all indicators together to provide:
+            <ul>
+              <li>Overall risk assessment (critical/high/medium/low)</li>
+              <li>Probable threat actor TTPs</li>
+              <li>Risk and impact to your target organization</li>
+              <li>Recommended actions</li>
+            </ul>
+          </li>
+          <li><strong>Location:</strong> Blue-bordered panel appears <strong>top-right</strong> after enrichment completes</li>
+          <li><strong>No Indicators Found?</strong> Gemini 2.5 Pro analyzes full page for secrets, payloads, threats</li>
+          <li><strong>Grounding:</strong> AI provides research links for validation</li>
+        </ul>
+
+        <h3 style="margin-top: 16px;">Features</h3>
+        <ul class="help-list">
+          <li><strong>Hover:</strong> See enrichment details (severity, summary, GTI stats)</li>
+          <li><strong>Right-Click:</strong> Pivot to VirusTotal, Shodan, OTX, etc. (customizable in Pivots tab)</li>
+          <li><strong>Caching:</strong> 30-day cache for faster repeat lookups</li>
+          <li><strong>Private IPs Filtered:</strong> RFC1918, link-local addresses skipped</li>
+          <li><strong>Defanged IOCs:</strong> Automatically detects and processes hxxp://, [.], [dot], etc.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Debugging & Logs</h2>
+        <p class="help-text">View detailed logs including Gemini prompts and API calls</p>
+
+        <div style="background: var(--bg-tertiary); padding: 12px; border-radius: 6px; margin-top: 12px;">
+          <h3 style="font-size: 13px; margin-bottom: 8px;">Service Worker Console</h3>
+          <p style="font-size: 11px; margin-bottom: 8px;">View background logs, API calls, and Gemini prompts:</p>
+          <ol style="font-size: 11px; line-height: 1.8; margin-left: 16px; margin-bottom: 12px;">
+            <li>Open Chrome Extensions page: <code>chrome://extensions/</code></li>
+            <li>Find "Optic IOC"</li>
+            <li>Click "service worker" link (blue text)</li>
+            <li>Console opens with all logs</li>
+          </ol>
+          <button id="open-service-worker" class="btn-primary full-width">Open Service Worker Console</button>
+        </div>
+
+        <div style="background: var(--bg-tertiary); padding: 12px; border-radius: 6px; margin-top: 12px;">
+          <h3 style="font-size: 13px; margin-bottom: 8px;">Page Console</h3>
+          <p style="font-size: 11px; margin-bottom: 8px;">View IOC detection and enrichment logs:</p>
+          <ol style="font-size: 11px; line-height: 1.8; margin-left: 16px;">
+            <li>Press F12 or right-click → Inspect</li>
+            <li>Click Console tab</li>
+            <li>Look for "Optic IOC:" prefixed logs</li>
+          </ol>
+        </div>
+
+        <div style="background: rgba(255, 136, 0, 0.1); border: 1px solid var(--warning); padding: 12px; border-radius: 6px; margin-top: 12px;">
+          <p style="font-size: 11px; font-weight: 600; margin-bottom: 4px;">🔍 Important Log Prefixes</p>
+          <ul style="font-size: 10px; color: var(--text-secondary); margin: 6px 0 0 16px; line-height: 1.6;">
+            <li><strong>[GEMINI]</strong> - Prompts sent to Gemini API (Service Worker console)</li>
+            <li><strong>[AGGREGATE]</strong> - Threat analysis panel creation (Page console - F12)</li>
+            <li><strong>[GTI]</strong> - VirusTotal API calls (Service Worker console)</li>
+            <li><strong>Optic IOC:</strong> - General detection and enrichment (Page console)</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <!-- About Tab -->
+    <div id="tab-about" class="tab-content">
+      <section>
+        <h2>About Optic IOC</h2>
+        <p><strong>Version:</strong> 1.0.0</p>
+        <p><strong>Description:</strong> Real-time threat intelligence enrichment for CTI analysts</p>
+      </section>
+
+      <section class="warning-section">
+        <h2>⚠️ Important Disclaimer</h2>
+        <div class="disclaimer-box">
+          <p><strong>Generative AI Usage Notice</strong></p>
+          <p>This extension uses Generative AI (Google Gemini or Anthropic Claude via Vertex AI) to:</p>
+          <ul>
+            <li>Analyze and summarize threat intelligence data</li>
+            <li>Assess relevance of indicators to your organization</li>
+            <li>Extract TTPs and threat context from webpage content</li>
+          </ul>
+          <p><strong>Important:</strong> AI-generated summaries and relevance assessments should be validated by human analysts. The AI may:</p>
+          <ul>
+            <li>Misinterpret context or technical details</li>
+            <li>Generate inaccurate or incomplete summaries</li>
+            <li>Make incorrect relevance assessments</li>
+          </ul>
+          <p><strong>Data Privacy:</strong> Webpage content and IOCs are sent to Google Vertex AI for processing. Ensure compliance with your organization's data handling policies.</p>
+          <p class="disclaimer-footer">Always verify AI findings with authoritative sources and apply analyst expertise.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Security & Privacy</h2>
+        <ul>
+          <li>API keys encrypted via Chrome OS keychain (macOS Keychain, Windows DPAPI, Linux libsecret)</li>
+          <li>No data sent to external servers except configured APIs (Gemini, GTI)</li>
+          <li>Cache stored locally with 30-day default TTL</li>
+          <li>Security warnings logged for CTI analyst review</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Actions</h2>
+        <button id="export-config" class="btn-secondary full-width">Export Configuration</button>
+        <button id="import-config" class="btn-secondary full-width">Import Configuration</button>
+        <button id="reset-config" class="btn-danger full-width">Reset to Defaults</button>
+      </section>
+
+      <section>
+        <p class="footer-text">For internal UKG use only. Report issues to CTI team.</p>
+      </section>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

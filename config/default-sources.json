@@ -1,0 +1,87 @@
+[
+  {
+    "id": "gti",
+    "enabled": true,
+    "name": "Google Threat Intelligence",
+    "endpoint": "https://www.virustotal.com/api/v3",
+    "method": "GET",
+    "path_template": "/{{ioc_type}}s/{{value}}",
+    "headers": {
+      "x-apikey": "{{api_key_ref:gti}}"
+    },
+    "rate_limit": {
+      "requests_per_minute": 4,
+      "burst": 10
+    },
+    "type_mapping": {
+      "ip": "ip_address",
+      "ipv6": "ip_address",
+      "domain": "domain",
+      "url": "url",
+      "hash_md5": "file",
+      "hash_sha1": "file",
+      "hash_sha256": "file"
+    }
+  },
+  {
+    "id": "shodan",
+    "enabled": false,
+    "name": "Shodan API",
+    "endpoint": "https://api.shodan.io",
+    "method": "GET",
+    "path_template": "/shodan/host/{{value}}",
+    "headers": {
+      "Authorization": "{{api_key_ref:shodan}}"
+    },
+    "rate_limit": {
+      "requests_per_minute": 1,
+      "burst": 1
+    },
+    "supported_types": ["ip"]
+  },
+  {
+    "id": "otx",
+    "enabled": false,
+    "name": "AlienVault OTX",
+    "endpoint": "https://otx.alienvault.com/api/v1",
+    "method": "GET",
+    "path_template": "/indicators/{{otx_type}}/{{value}}/general",
+    "headers": {
+      "X-OTX-API-KEY": "{{api_key_ref:otx}}"
+    },
+    "rate_limit": {
+      "requests_per_minute": 10,
+      "burst": 20
+    },
+    "type_mapping": {
+      "ip": "IPv4",
+      "ipv6": "IPv6",
+      "domain": "domain",
+      "url": "url",
+      "hash_md5": "FileHash-MD5",
+      "hash_sha1": "FileHash-SHA1",
+      "hash_sha256": "FileHash-SHA256",
+      "cve": "CVE"
+    }
+  },
+  {
+    "id": "urlscan",
+    "enabled": false,
+    "name": "URLScan.io",
+    "endpoint": "https://urlscan.io/api/v1",
+    "method": "GET",
+    "path_template": "/search/?q={{query}}",
+    "headers": {
+      "API-Key": "{{api_key_ref:urlscan}}"
+    },
+    "rate_limit": {
+      "requests_per_minute": 2,
+      "burst": 5
+    },
+    "query_mapping": {
+      "ip": "page.ip:{{value}}",
+      "domain": "page.domain:{{value}}",
+      "url": "page.url:{{value_encoded}}"
+    }
+  }
+]

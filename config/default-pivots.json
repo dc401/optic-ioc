@@ -1,0 +1,106 @@
+{
+  "gti_lookup": {
+    "enabled": true,
+    "label": "Google Threat Intelligence",
+    "ioc_types": ["ip", "ipv4", "ipv6", "domain", "hash_md5", "hash_sha1", "hash_sha256", "url"],
+    "url_template": "https://www.virustotal.com/gui/{{gti_type}}/{{value}}",
+    "type_mapping": {
+      "ip": "ip-address",
+      "ipv4": "ip-address",
+      "ipv6": "ip-address",
+      "domain": "domain",
+      "hash_md5": "file",
+      "hash_sha1": "file",
+      "hash_sha256": "file",
+      "url": "url"
+    },
+    "order": 1
+  },
+  "gti_search": {
+    "enabled": true,
+    "label": "Search in GTI",
+    "ioc_types": ["ip", "ipv4", "ipv6", "domain", "hash_md5", "hash_sha1", "hash_sha256", "url", "email", "cve"],
+    "url_template": "https://www.virustotal.com/gui/search/{{value}}",
+    "order": 2
+  },
+  "shodan_host": {
+    "enabled": true,
+    "label": "Shodan Host Lookup",
+    "ioc_types": ["ip"],
+    "url_template": "https://www.shodan.io/host/{{value}}",
+    "order": 3
+  },
+  "shodan_search": {
+    "enabled": true,
+    "label": "Search in Shodan",
+    "ioc_types": ["ip", "domain"],
+    "url_template": "https://www.shodan.io/search?query={{value}}",
+    "order": 4
+  },
+  "otx": {
+    "enabled": true,
+    "label": "AlienVault OTX",
+    "ioc_types": ["ip", "ipv6", "domain", "hash_md5", "hash_sha1", "hash_sha256", "url", "cve"],
+    "url_template": "https://otx.alienvault.com/indicator/{{otx_type}}/{{value}}",
+    "type_mapping": {
+      "ip": "IPv4",
+      "ipv6": "IPv6",
+      "domain": "domain",
+      "url": "url",
+      "hash_md5": "FileHash-MD5",
+      "hash_sha1": "FileHash-SHA1",
+      "hash_sha256": "FileHash-SHA256",
+      "cve": "CVE"
+    },
+    "order": 5
+  },
+  "urlscan": {
+    "enabled": true,
+    "label": "URLScan.io Search",
+    "ioc_types": ["url", "domain", "ip"],
+    "url_template": "https://urlscan.io/search/#{{value_encoded}}",
+    "order": 6
+  },
+  "greynoise": {
+    "enabled": true,
+    "label": "GreyNoise IP Lookup",
+    "ioc_types": ["ip"],
+    "url_template": "https://viz.greynoise.io/ip/{{value}}",
+    "order": 7
+  },
+  "censys": {
+    "enabled": false,
+    "label": "Censys Search",
+    "ioc_types": ["ip", "domain"],
+    "url_template": "https://search.censys.io/hosts/{{value}}",
+    "order": 8
+  },
+  "talos": {
+    "enabled": false,
+    "label": "Talos Intelligence",
+    "ioc_types": ["ip", "domain"],
+    "url_template": "https://talosintelligence.com/reputation_center/lookup?search={{value}}",
+    "order": 9
+  },
+  "mitre_attack": {
+    "enabled": true,
+    "label": "MITRE ATT&CK",
+    "ioc_types": [],
+    "url_template": "https://attack.mitre.org/techniques/{{value}}/",
+    "order": 10
+  },
+  "nvd_cve": {
+    "enabled": true,
+    "label": "NVD CVE Lookup",
+    "ioc_types": ["cve"],
+    "url_template": "https://nvd.nist.gov/vuln/detail/{{value}}",
+    "order": 11
+  },
+  "malwarebazaar": {
+    "enabled": false,
+    "label": "MalwareBazaar (abuse.ch)",
+    "ioc_types": ["hash_md5", "hash_sha1", "hash_sha256"],
+    "url_template": "https://bazaar.abuse.ch/browse.php?search=sha256:{{value}}",
+    "order": 12
+  }
+}

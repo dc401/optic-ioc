@@ -1,0 +1,79 @@
+{
+  "manifest_version": 3,
+  "name": "Optic IOC",
+  "version": "1.0.0",
+  "description": "Real-time threat intelligence enrichment for CTI analysts",
+
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "contextMenus",
+    "alarms"
+  ],
+
+  "host_permissions": [
+    "https://aiplatform.googleapis.com/*",
+    "https://www.virustotal.com/*",
+    "https://api.shodan.io/*",
+    "https://otx.alienvault.com/*",
+    "https://urlscan.io/*",
+    "<all_urls>"
+  ],
+
+  "background": {
+    "service_worker": "src/background/service-worker.js"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "src/lib/constants.js",
+        "src/lib/ioc-patterns.js",
+        "src/lib/sanitizer.js",
+        "src/lib/security-validator.js",
+        "src/lib/ui-helpers.js",
+        "src/content/content-script.js"
+      ],
+      "css": [
+        "src/styles/content.css",
+        "src/styles/dark-theme.css"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+
+  "content_security_policy": {
+    "extension_pages": "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src https://aiplatform.googleapis.com https://www.virustotal.com https://api.shodan.io https://otx.alienvault.com https://urlscan.io; object-src 'none'"
+  },
+
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/styles/*.css",
+        "icons/*.png",
+        "config/*.json"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

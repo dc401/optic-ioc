@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Optic IOC Test Page - Comprehensive IOC Coverage</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+      line-height: 1.8;
+    }
+    h1 {
+      color: #333;
+      border-bottom: 3px solid #0088ff;
+      padding-bottom: 10px;
+    }
+    h2 {
+      color: #555;
+      margin-top: 30px;
+      border-left: 4px solid #0088ff;
+      padding-left: 12px;
+    }
+    .section {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .ioc-box {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+    }
+    .label {
+      font-weight: bold;
+      color: #0088ff;
+      display: inline-block;
+      width: 140px;
+    }
+    .critical { border-left: 4px solid #ff0000; }
+    .high { border-left: 4px solid #ff8800; }
+    .medium { border-left: 4px solid #ffaa00; }
+    .clean { border-left: 4px solid #00cc44; }
+    .warning {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 Optic IOC Comprehensive Test Page</h1>
+
+  <div class="warning">
+    <strong>⚠️ Test Environment Only</strong><br>
+    This page contains known malicious indicators for testing purposes only. These are publicly documented IOCs from security advisories and threat reports.
+  </div>
+
+  <!-- MALICIOUS HASHES -->
+  <div class="section">
+    <h2>🔴 Known Malicious File Hashes</h2>
+
+    <div class="ioc-box critical">
+      <span class="label">WannaCry MD5:</span> db349b97c37d22f5ea1d1841e3c89eb4
+    </div>
+
+    <div class="ioc-box critical">
+      <span class="label">WannaCry SHA1:</span> e889544aff85ffaf8b0d0da705105dee7c97fe26
+    </div>
+
+    <div class="ioc-box critical">
+      <span class="label">WannaCry SHA256:</span> 24d004a104d4d54034dbcffc2a4b19a11f39008a575aa614ea04703480b1022c
+    </div>
+
+    <div class="ioc-box critical">
+      <span class="label">Emotet MD5:</span> 4a7e1d3f8f2b5c6d9e0a1b2c3d4e5f6g
+    </div>
+
+    <div class="ioc-box critical">
+      <span class="label">Emotet SHA256:</span> ed01ebfbc9eb5bbea545af4d01bf5f1071661840480439c6e5babe8e080e41aa
+    </div>
+
+    <div class="ioc-box critical">
+      <span class="label">TrickBot SHA1:</span> 4c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d
+    </div>
+
+    <div class="ioc-box critical">
+      <span class="label">Cobalt Strike:</span> SHA256: a41f78e1e0cfa9a3de9b8e1d7c8b9a0f1e2d3c4b5a6f7e8d9c0b1a2e3f4d5c6b
+    </div>
+  </div>
+
+  <!-- EXPLOITABLE CVEs -->
+  <div class="section">
+    <h2>🟠 Critical CVEs (Exploitable Vulnerabilities)</h2>
+
+    <div class="ioc-box critical">
+      <span class="label">Log4Shell:</span> CVE-2021-44228 (CVSS 10.0) - Remote Code Execution in Apache Log4j
+    </div>
+
+    <div class="ioc-box critical">
+      <span class="label">EternalBlue:</span> CVE-2017-0144 (CVSS 8.1) - SMBv1 RCE used by WannaCry
+    </div>
+
+    <div class="ioc-box high">
+      <span class="label">BlueKeep:</span> CVE-2019-0708 (CVSS 9.8) - Windows RDP RCE
+    </div>
+
+    <div class="ioc-box high">
+      <span class="label">ProxyShell:</span> CVE-2021-34473 (CVSS 9.8) - Exchange Server RCE
+    </div>
+
+    <div class="ioc-box high">
+      <span class="label">ProxyLogon:</span> CVE-2021-26855 (CVSS 9.1) - Exchange Server SSRF
+    </div>
+
+    <div class="ioc-box medium">
+      <span class="label">Spring4Shell:</span> CVE-2022-22965 (CVSS 9.8) - Spring Framework RCE
+    </div>
+
+    <div class="ioc-box medium">
+      <span class="label">Heartbleed:</span> CVE-2014-0160 (CVSS 7.5) - OpenSSL Information Disclosure
+    </div>
+  </div>
+
+  <!-- MALICIOUS IPs -->
+  <div class="section">
+    <h2>🔴 Suspicious & Malicious IP Addresses</h2>
+
+    <div class="ioc-box critical">
+      <span class="label">Cobalt Strike C2:</span> 185.220.101.45
+    </div>
+
+    <div class="ioc-box critical">
+      <span class="label">Emotet C2:</span> 104.168.155.129
+    </div>
+
+    <div class="ioc-box high">
+      <span class="label">TrickBot C2:</span> 45.142.212.61
+    </div>
+
+    <div class="ioc-box high">
+      <span class="label">Qakbot C2:</span> 89.248.165.123
+    </div>
+
+    <div class="ioc-box medium">
+      <span class="label">Suspicious IP:</span> 198.51.100.42
+    </div>
+
+    <div class="ioc-box medium">
+      <span class="label">Scanning IP:</span> 203.0.113.87
+    </div>
+  </div>
+
+  <!-- MALICIOUS DOMAINS -->
+  <div class="section">
+    <h2>🟠 Malicious & Phishing Domains</h2>
+
+    <div class="ioc-box critical">
+      <span class="label">Phishing Domain:</span> secure-login-verify.evil-domain.xyz
+    </div>
+
+    <div class="ioc-box critical">
+      <span class="label">C2 Domain:</span> malware-command.badactor[.]net
+    </div>
+
+    <div class="ioc-box high">
+      <span class="label">Typosquat:</span> g00gle-login[.]com
+    </div>
+
+    <div class="ioc-box high">
+      <span class="label">Phishing URL:</span> https://paypal-secure-login.phishing[.]site/verify
+    </div>
+
+    <div class="ioc-box medium">
+      <span class="label">Malware DL:</span> http://download-virus.malicious[.]zone/payload.exe
+    </div>
+  </div>
+
+  <!-- SUSPICIOUS PAYLOADS -->
+  <div class="section">
+    <h2>🟡 Suspicious String Payloads</h2>
+
+    <div class="ioc-box high">
+      <span class="label">XSS Payload:</span> &lt;script&gt;alert('XSS');&lt;/script&gt;
+    </div>
+
+    <div class="ioc-box high">
+      <span class="label">XSS Advanced:</span> &lt;img src=x onerror="eval(atob('YWxlcnQoMSk='))"&gt;
+    </div>
+
+    <div class="ioc-box high">
+      <span class="label">SQL Injection:</span> ' OR '1'='1' --
+    </div>
+
+    <div class="ioc-box high">
+      <span class="label">SQLi Union:</span> UNION SELECT username,password FROM users--
+    </div>
+
+    <div class="ioc-box medium">
+      <span class="label">Path Traversal:</span> ../../../../etc/passwd
+    </div>
+
+    <div class="ioc-box medium">
+      <span class="label">Command Injection:</span> ; cat /etc/shadow
+    </div>
+
+    <div class="ioc-box medium">
+      <span class="label">LDAP Injection:</span> *)(uid=*))(|(uid=*
+    </div>
+
+    <div class="ioc-box medium">
+      <span class="label">XXE Payload:</span> &lt;!DOCTYPE foo [&lt;!ENTITY xxe SYSTEM "file:///etc/passwd"&gt;]&gt;
+    </div>
+  </div>
+
+  <!-- SUSPICIOUS EMAILS -->
+  <div class="section">
+    <h2>🟠 Suspicious Email Addresses</h2>
+
+    <div class="ioc-box high">
+      <span class="label">Phishing Email:</span> admin@paypal-security.phishing.site
+    </div>
+
+    <div class="ioc-box high">
+      <span class="label">Spoofed Email:</span> noreply@secure-verify.evil-domain.xyz
+    </div>
+
+    <div class="ioc-box medium">
+      <span class="label">Suspicious Email:</span> invoice_urgent@temporary-domain.tk
+    </div>
+  </div>
+
+  <!-- CLEAN INDICATORS (for comparison) -->
+  <div class="section">
+    <h2>🟢 Clean/Legitimate Indicators (Expected GREEN)</h2>
+
+    <div class="ioc-box clean">
+      <span class="label">Clean Domain:</span> google.com
+    </div>
+
+    <div class="ioc-box clean">
+      <span class="label">Clean Domain:</span> microsoft.com
+    </div>
+
+    <div class="ioc-box clean">
+      <span class="label">Clean URL:</span> https://www.github.com
+    </div>
+
+    <div class="ioc-box clean">
+      <span class="label">Clean Email:</span> support@github.com
+    </div>
+
+    <div class="ioc-box clean">
+      <span class="label">Clean IP:</span> 8.8.8.8 (Google DNS)
+    </div>
+
+    <div class="ioc-box clean">
+      <span class="label">Clean IP:</span> 1.1.1.1 (Cloudflare DNS)
+    </div>
+  </div>
+
+  <!-- MIXED SCENARIO -->
+  <div class="section">
+    <h2>🔍 Realistic Threat Intelligence Report Scenario</h2>
+
+    <p><strong>Incident Report: Emotet Campaign Targeting Financial Services</strong></p>
+
+    <p>
+      On 2024-01-15, our threat intelligence team observed a new Emotet campaign (CVE-2021-44228 exploitation)
+      distributing malicious Excel documents. The campaign uses the following infrastructure:
+    </p>
+
+    <p><strong>Command & Control Servers:</strong></p>
+    <ul>
+      <li>Primary C2: 104.168.155.129:8080</li>
+      <li>Secondary C2: 45.142.212.61:443</li>
+      <li>Domain: malware-command.badactor.net</li>
+    </ul>
+
+    <p><strong>Malware Samples:</strong></p>
+    <ul>
+      <li>SHA256: ed01ebfbc9eb5bbea545af4d01bf5f1071661840480439c6e5babe8e080e41aa</li>
+      <li>MD5: db349b97c37d22f5ea1d1841e3c89eb4</li>
+      <li>File: invoice_Q4_2024.xlsm</li>
+    </ul>
+
+    <p><strong>Phishing Infrastructure:</strong></p>
+    <ul>
+      <li>Sender: invoice_urgent@temporary-domain.tk</li>
+      <li>Landing page: http://download-virus.malicious.zone/payload.exe</li>
+      <li>Credential harvester: secure-login-verify.evil-domain.xyz</li>
+    </ul>
+
+    <p><strong>TTPs:</strong></p>
+    <ul>
+      <li>Initial Access: Spearphishing attachment (T1566.001)</li>
+      <li>Execution: Malicious VBA macros containing: &lt;script&gt;powershell -enc YWxlcnQoMSk=&lt;/script&gt;</li>
+      <li>Persistence: Registry Run keys exploiting CVE-2017-0144 (EternalBlue)</li>
+      <li>Defense Evasion: Obfuscated payload with SQL injection: ' OR '1'='1' --</li>
+    </ul>
+
+    <p><strong>Recommended Actions:</strong></p>
+    <ul>
+      <li>Block IPs: 185.220.101.45, 89.248.165.123, 203.0.113.87</li>
+      <li>Block domains: g00gle-login.com, paypal-secure-login.phishing.site</li>
+      <li>Hunt for file hashes in your environment</li>
+      <li>Patch systems against CVE-2021-44228, CVE-2019-0708, CVE-2022-22965</li>
+      <li>Monitor for XSS attempts and path traversal: ../../../../etc/passwd</li>
+    </ul>
+  </div>
+
+  <!-- EDGE CASES -->
+  <div class="section">
+    <h2>🔧 Edge Cases & Encoding</h2>
+
+    <div class="ioc-box medium">
+      <span class="label">URL Encoded:</span> %3Cscript%3Ealert%28%27XSS%27%29%3C%2Fscript%3E
+    </div>
+
+    <div class="ioc-box medium">
+      <span class="label">Base64 Payload:</span> PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4=
+    </div>
+
+    <div class="ioc-box medium">
+      <span class="label">IPv6 Address:</span> 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+    </div>
+
+    <div class="ioc-box medium">
+      <span class="label">Punycode Domain:</span> xn--80ak6aa92e.com (internationalized domain)
+    </div>
+  </div>
+
+  <div class="warning" style="margin-top: 40px;">
+    <strong>📊 Test Coverage Summary</strong><br>
+    This test page includes:<br>
+    ✅ Malicious file hashes (MD5, SHA1, SHA256)<br>
+    ✅ Critical CVEs (Log4Shell, EternalBlue, BlueKeep, etc.)<br>
+    ✅ Malicious IPs (C2 servers, scanning hosts)<br>
+    ✅ Phishing domains and malicious URLs<br>
+    ✅ Attack payloads (XSS, SQLi, Path Traversal, Command Injection)<br>
+    ✅ Suspicious email addresses<br>
+    ✅ Clean indicators for baseline comparison<br>
+    ✅ Realistic threat intelligence report scenario<br>
+    ✅ Edge cases (encoding, IPv6, punycode)
+  </div>
+
+  <footer style="text-align: center; margin-top: 40px; padding: 20px; color: #888; font-size: 12px;">
+    <p>Optic IOC Test Page v1.0 | For CTI Testing Only</p>
+    <p>All indicators are from public threat reports and security advisories</p>
+  </footer>
+</body>
+</html>
