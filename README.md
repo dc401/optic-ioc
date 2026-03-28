@@ -30,7 +30,7 @@ You'll need at least **one** of these (both recommended):
 2. Go to **Settings** tab
 3. Enter your Gemini API key
 4. Enter your GTI API key (optional but recommended)
-5. Set **Target Organization** (optional - e.g., "UKG" or "ukg.com")
+5. Set **Target Organization** (optional - e.g., "foo" or "foo.com")
 6. Click **Save Settings**
 
 ### 4. Test Connection
